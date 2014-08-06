@@ -11,7 +11,10 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 import com.topcoder.farm.shared.net.connection.api.Connection;
 import com.topcoder.farm.shared.net.connection.api.ConnectionFactory;
@@ -26,7 +29,7 @@ import com.topcoder.netCommon.io.ClientSocket;
  * @author Diego Belfer (mural)
  * @version $Id$
  */
-public class ClientSocketToConnectionAdapterTest extends TestCase {
+public class ClientSocketToConnectionAdapterTest {
     public volatile int closed;
     public volatile int lost;
     public volatile int received;
@@ -37,7 +40,8 @@ public class ClientSocketToConnectionAdapterTest extends TestCase {
     private Thread serverThread;
     private ConnectionFactory factory;
 
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         factory = new ClientSocketConnectionFactory(new InetSocketAddress("127.0.0.1" , IntegConstants.CONTROLLER_CLIENT_PORT), 
                                                     new SerializableCSHandlerFactory(), 100000, 10000);
         closed = lost = 0;
@@ -73,24 +77,28 @@ public class ClientSocketToConnectionAdapterTest extends TestCase {
         
     }
 
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         serverThread.interrupt();
         if (serverSocket != null) serverSocket.close();
         server.close();
+        // need to sleep before connecting again b/c of address in use exception on ec2
+        Thread.sleep(5000);
     }
     
     /**
      * When the connection is closed by peer, the connection is reported
      * as lost properly
      */
+    @Test
     public void testLostConnectionReportedAndHandled() throws Exception {
        Connection conn = factory.create(buildListener());
        serverSocket.close();
        Thread.sleep(100);
-       assertTrue(closed == 0);
-       assertTrue(lost == 1);
-       assertTrue(conn.isClosed());
-       assertTrue(conn.isLost());
+       Assert.assertTrue(closed == 0);
+       Assert.assertTrue(lost == 1);
+       Assert.assertTrue(conn.isClosed());
+       Assert.assertTrue(conn.isLost());
    }
     
     
@@ -99,44 +107,47 @@ public class ClientSocketToConnectionAdapterTest extends TestCase {
      * When the connection is closed using the close method, It is reported
      * as closed properly
      */
+    @Test
     public void testCloseConnectionReportedAndHandled() throws Exception {
        Connection conn = factory.create(buildListener());
        conn.close();
        Thread.sleep(100);
-       assertTrue(closed == 1);
-       assertTrue(lost == 0);
-       assertTrue(conn.isClosed());
-       assertFalse(conn.isLost());
+       Assert.assertTrue(closed == 1);
+       Assert.assertTrue(lost == 0);
+       Assert.assertTrue(conn.isClosed());
+       Assert.assertFalse(conn.isLost());
    }
     
     /**
      * When the connection is closed using the close method and after that the peer drops
      * the connection it is still reported as closed propertly  
      */
+    @Test
     public void testCloseAndLost() throws Exception {
         Connection conn = factory.create(buildListener());
         conn.close();
         serverSocket.close();
         Thread.sleep(200);
-        assertTrue(closed == 1);
-        assertTrue(lost == 0);
-        assertTrue(conn.isClosed());
-        assertFalse(conn.isLost());
+        Assert.assertTrue(closed == 1);
+        Assert.assertTrue(lost == 0);
+        Assert.assertTrue(conn.isClosed());
+        Assert.assertFalse(conn.isLost());
     }
     
     /**
      * Test that when connected, messages sent through the connection arrive to the peer 
      * and messages sent by peer are received by the connection and notified properly
      */
+    @Test
     public void testSendAndReceived() throws Exception {
         Connection conn = factory.create(buildListener());
         conn.send(new Integer(1));
         Thread.sleep(100);
-        assertTrue(sent == 1);
+        Assert.assertTrue(sent == 1);
         conn.send(new Integer(2));
         Thread.sleep(100);
-        assertTrue(sent == 2);
-        assertTrue(received == 1);
+        Assert.assertTrue(sent == 2);
+        Assert.assertTrue(received == 1);
         serverSocket.close();
     }
     
