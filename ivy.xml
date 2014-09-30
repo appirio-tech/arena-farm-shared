@@ -11,5 +11,8 @@
         <dependency org="com.topcoder.internal" name="shared" rev="latest.integration"/>
         <dependency org="com.topcoder.internal" name="custom-serialization" rev="latest.integration"/>
         <dependency org="com.topcoder.internal" name="concurrent" rev="latest.integration"/>
+	<dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.4.2">
+            <artifact name="jackson-annotations" type="jar"/>
+	</dependency>
     </dependencies>
 </ivy-module>

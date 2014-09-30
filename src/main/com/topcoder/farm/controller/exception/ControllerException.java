@@ -10,10 +10,16 @@ package com.topcoder.farm.controller.exception;
  * @version $Id$
  */
 public class ControllerException extends Exception {
-    public ControllerException() {
+    private static final long serialVersionUID = 1L;
+
+	public ControllerException() {
     }
 
     public ControllerException(String message) {
         super(message);
+    }
+    
+    public ControllerException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

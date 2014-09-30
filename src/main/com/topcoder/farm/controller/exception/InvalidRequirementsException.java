@@ -11,8 +11,14 @@ package com.topcoder.farm.controller.exception;
  */
 public class InvalidRequirementsException extends ControllerException {
 
-    public InvalidRequirementsException(String message) {
+    private static final long serialVersionUID = 1L;
+
+	public InvalidRequirementsException(String message) {
         super(message);
+    }
+    
+    public InvalidRequirementsException(String message, Throwable cause) {
+        super(message, cause);
     }
 
 }
