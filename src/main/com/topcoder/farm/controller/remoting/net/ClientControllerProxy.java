@@ -13,7 +13,6 @@ import org.apache.commons.logging.LogFactory;
 
 import com.topcoder.farm.client.node.ClientNodeCallback;
 import com.topcoder.farm.controller.api.ClientControllerNode;
-import com.topcoder.farm.controller.api.InvocationRequest;
 import com.topcoder.farm.controller.api.InvocationResponse;
 import com.topcoder.farm.controller.command.CancelPendingRequestsCommand;
 import com.topcoder.farm.controller.command.CountPendingRequestsCommand;
@@ -26,12 +25,10 @@ import com.topcoder.farm.controller.command.MarkInvocationAsNotifiedCommand;
 import com.topcoder.farm.controller.command.RegisterClientCommand;
 import com.topcoder.farm.controller.command.RemoveSharedObjectsCommand;
 import com.topcoder.farm.controller.command.RequestPendingResponsesCommand;
-import com.topcoder.farm.controller.command.ScheduleInvocationRequestCommand;
 import com.topcoder.farm.controller.command.StoreSharedObjectCommand;
 import com.topcoder.farm.controller.command.UnRegisterClientCommand;
 import com.topcoder.farm.controller.exception.ClientNotListeningException;
 import com.topcoder.farm.controller.exception.DuplicatedIdentifierException;
-import com.topcoder.farm.controller.exception.InvalidRequirementsException;
 import com.topcoder.farm.controller.exception.NotAllowedToRegisterException;
 import com.topcoder.farm.controller.exception.SharedObjectReferencedException;
 import com.topcoder.farm.controller.exception.UnregisteredClientException;
@@ -48,6 +45,7 @@ import com.topcoder.farm.shared.util.concurrent.runner.Runner;
  * @author Diego Belfer (mural)
  * @version $Id$
  */
+@Deprecated
 public class ClientControllerProxy extends AbstractControllerProxy implements ClientControllerNode {
     private Log log = LogFactory.getLog(ClientControllerProxy.class);
 
@@ -137,20 +135,20 @@ public class ClientControllerProxy extends AbstractControllerProxy implements Cl
         }
     }
 
-    public void scheduleInvocation(String id, InvocationRequest request) throws InvalidRequirementsException, DuplicatedIdentifierException {
-        try {
-            assertRegistered();
-            invokeSync(new ScheduleInvocationRequestCommand(id, request));
-        } catch (RuntimeException e) {
-            throw e;
-        } catch (InvalidRequirementsException e) {
-            throw e;
-        } catch (DuplicatedIdentifierException e) {
-            throw e;
-        } catch (Exception e) {
-            handleUnexpectedException(e);
-        }
-    }
+//    public void scheduleInvocation(String id, InvocationRequest request) throws InvalidRequirementsException, DuplicatedIdentifierException {
+//        try {
+//            assertRegistered();
+//            invokeSync(new ScheduleInvocationRequestCommand(id, request));
+//        } catch (RuntimeException e) {
+//            throw e;
+//        } catch (InvalidRequirementsException e) {
+//            throw e;
+//        } catch (DuplicatedIdentifierException e) {
+//            throw e;
+//        } catch (Exception e) {
+//            handleUnexpectedException(e);
+//        }
+//    }
 
 
     public void markInvocationAsNotified(String id, String requestId) {
