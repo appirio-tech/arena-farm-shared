@@ -7,10 +7,8 @@ package com.topcoder.farm.client.node;
 
 import java.util.List;
 
-import com.topcoder.farm.controller.api.InvocationRequest;
 import com.topcoder.farm.controller.api.InvocationResponse;
 import com.topcoder.farm.controller.exception.DuplicatedIdentifierException;
-import com.topcoder.farm.controller.exception.InvalidRequirementsException;
 import com.topcoder.farm.controller.exception.SharedObjectReferencedException;
 import com.topcoder.farm.satellite.SatelliteNode;
 import com.topcoder.farm.shared.invocation.InvocationFeedback;
@@ -26,18 +24,19 @@ import com.topcoder.farm.shared.invocation.InvocationFeedback;
  * @author Diego Belfer (mural)
  * @version $Id$
  */
+@Deprecated
 public interface ClientNode extends SatelliteNode {
 
-    /**
-     * Schedules an Invocation in the farm.
-     *
-     * @param request The request containing required data to process
-     *                invocation
-     *
-     * @throws InvalidRequirementsException If requeriments specified are no matched by any processor
-     * @throws DuplicatedIdentifierException If the there exists another client request in the farm with the same id
-     */
-    void scheduleInvocation(InvocationRequest request) throws InvalidRequirementsException, DuplicatedIdentifierException;
+//    /**
+//     * Schedules an Invocation in the farm.
+//     *
+//     * @param request The request containing required data to process
+//     *                invocation
+//     *
+//     * @throws InvalidRequirementsException If requeriments specified are no matched by any processor
+//     * @throws DuplicatedIdentifierException If the there exists another client request in the farm with the same id
+//     */
+//    void scheduleInvocation(InvocationRequest request) throws InvalidRequirementsException, DuplicatedIdentifierException;
 
     /**
      * Cancels all invocations that are stored in the farm.

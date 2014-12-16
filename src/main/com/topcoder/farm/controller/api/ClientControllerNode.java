@@ -10,7 +10,6 @@ import java.util.List;
 import com.topcoder.farm.client.node.ClientNodeCallback;
 import com.topcoder.farm.controller.exception.ClientNotListeningException;
 import com.topcoder.farm.controller.exception.DuplicatedIdentifierException;
-import com.topcoder.farm.controller.exception.InvalidRequirementsException;
 import com.topcoder.farm.controller.exception.NotAllowedToRegisterException;
 import com.topcoder.farm.controller.exception.SharedObjectReferencedException;
 import com.topcoder.farm.controller.exception.UnregisteredClientException;
@@ -21,6 +20,7 @@ import com.topcoder.farm.controller.exception.UnregisteredClientException;
  * @author Diego Belfer (mural)
  * @version $Id$
  */
+@Deprecated
 public interface ClientControllerNode extends SatelliteControllerNode {
 
     /**
@@ -49,24 +49,24 @@ public interface ClientControllerNode extends SatelliteControllerNode {
      */
     public Object getClientInitializationData(String id);
 
-    /**
-     * Schedules an invocation for the given client
-     * at the farm.<p>
-     *
-     * Note on Priority:
-     * Every client has a default priority for its requests. Client requests are
-     * enqueued and procesed by the farm in an order which uses the priority, time of reception, etc. being
-     * the priority given to a request the most important factor.<br>
-     * Priorities are integer values, lowest value more priority. Priority for a request is calculated
-     * as <code>client.defaultPriority</code> + <code>request.priority</code>. This allows clients to sort
-     * its requests. Bad usage of priority values can lead to starvation of other request.
-     *
-     * @param id Id of the client
-     * @param request Invocation request to schedule
-     * @throws InvalidRequirementsException if no active processor can process the requests
-     * @throws DuplicatedIdentifierException If the identifier given to the request already exists in the farm
-     */
-    public void scheduleInvocation(String id, InvocationRequest request) throws InvalidRequirementsException, DuplicatedIdentifierException;
+//    /**
+//     * Schedules an invocation for the given client
+//     * at the farm.<p>
+//     *
+//     * Note on Priority:
+//     * Every client has a default priority for its requests. Client requests are
+//     * enqueued and procesed by the farm in an order which uses the priority, time of reception, etc. being
+//     * the priority given to a request the most important factor.<br>
+//     * Priorities are integer values, lowest value more priority. Priority for a request is calculated
+//     * as <code>client.defaultPriority</code> + <code>request.priority</code>. This allows clients to sort
+//     * its requests. Bad usage of priority values can lead to starvation of other request.
+//     *
+//     * @param id Id of the client
+//     * @param request Invocation request to schedule
+//     * @throws InvalidRequirementsException if no active processor can process the requests
+//     * @throws DuplicatedIdentifierException If the identifier given to the request already exists in the farm
+//     */
+//    public void scheduleInvocation(String id, InvocationRequest request) throws InvalidRequirementsException, DuplicatedIdentifierException;
 
 
     /**
